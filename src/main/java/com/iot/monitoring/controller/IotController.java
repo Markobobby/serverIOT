@@ -33,12 +33,10 @@ public class IotController {
 	
 	@RequestMapping(value = "/updateValue", method = RequestMethod.POST)
 	@CrossOrigin(origins = "*")
-	public String updateValue(@RequestBody DeDto deDto)
+	public void updateValue(@RequestBody int id, int number1, int number2)
 	{
-		De de = (De) jTransfo.convert(deDto);
+		De de = new De(id, number1, number2, true);
 		deDao.save(de);
-		return "OK";
-		
 	}
 	
 @RequestMapping(value = "/checkPartie", method = RequestMethod.POST)
