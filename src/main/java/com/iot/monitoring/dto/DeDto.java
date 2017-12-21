@@ -19,6 +19,8 @@ public class DeDto {
 	private int number1;
 	private int number2;
 	private boolean aJouer;
+	private boolean resultatRecup;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,12 +45,21 @@ public class DeDto {
 	public void setaJouer(boolean aJouer) {
 		this.aJouer = aJouer;
 	}
-	public DeDto(Integer id, int number1, int number2, boolean aJouer) {
+	
+	public boolean isResultatRecup() {
+		return resultatRecup;
+	}
+	public void setResultatRecup(boolean resultatRecup) {
+		this.resultatRecup = resultatRecup;
+	}
+	
+	public DeDto(Integer id, int number1, int number2, boolean aJouer, boolean resultatRecup) {
 		super();
 		this.id = id;
 		this.number1 = number1;
 		this.number2 = number2;
 		this.aJouer = aJouer;
+		this.resultatRecup = resultatRecup;
 	}
 	public DeDto() {
 

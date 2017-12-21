@@ -22,6 +22,8 @@ public class De{
 	private int number2;
 	@Column(nullable = false)
 	private boolean aJouer;
+	@Column(nullable = false)
+	private boolean resultatRecup;
 
 	
 
@@ -52,12 +54,21 @@ public class De{
 	public void setaJouer(boolean aJouer) {
 		this.aJouer = aJouer;
 	}
-	public De(Integer id, int number1, int number2, boolean aJouer) {
+	
+	
+	public boolean isResultatRecup() {
+		return resultatRecup;
+	}
+	public void setResultatRecup(boolean resultatRecup) {
+		this.resultatRecup = resultatRecup;
+	}
+	public De(Integer id, int number1, int number2, boolean aJouer, boolean resultatRecup) {
 		super();
 		this.id = id;
 		this.number1 = number1;
 		this.number2 = number2;
 		this.aJouer = aJouer;
+		this.resultatRecup = resultatRecup;
 	}
 	
 	

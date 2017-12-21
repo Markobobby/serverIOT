@@ -33,9 +33,9 @@ public class IotController {
 	
 	@RequestMapping(value = "/updateValue", method = RequestMethod.POST)
 	@CrossOrigin(origins = "*")
-	public String updateValue(@RequestBody DeDto deDto)
+	public String updateValue(@RequestParam int id,@RequestParam int number1, @RequestParam int number2)
 	{
-		De de = (De) jTransfo.convert(deDto);
+		De de = new De(id, number1, number2, true, false);
 		deDao.save(de);
 		return "OK";
 		
@@ -48,6 +48,7 @@ public String check(@RequestParam int player)
 	String resultat="";
 		int i=0;
 		boolean tousOk = true;
+		boolean aTermine = false;
 		List<De> des = deDao.findAll();
 //		int pl = Integer.parseInt(player);
 		while (tousOk && i<des.size()){
@@ -56,12 +57,21 @@ public String check(@RequestParam int player)
 			}
 			else{
 			tousOk =false;
-			resultat = "En attente de l'adversaire...";
+			resultat = "3,0,rien";
 			}
 			
 		}
 		if(tousOk){
 		resultat = iotService.checkResultat(des, player);
+		for(int cpt=0; cpt< des.size(); cpt++){
+			if(des.get(cpt).getId()== player){
+				des.get(cpt).setResultatRecup(true);
+				deDao.save(des);
+			}
+		}
+		if(des.get(0).isResultatRecup() && des.get(1).isResultatRecup()) {
+			resetPartie();
+			}
 		}
 		return resultat;
 		
@@ -69,20 +79,35 @@ public String check(@RequestParam int player)
 
 @RequestMapping(value = "/resetPartie", method = RequestMethod.GET)
 @CrossOrigin(origins = "*")
-public String getTest()
+public String resetPartie()
 {
 	List<De> des = deDao.findAll();
 	for(int i=0; i<des.size(); i++)
 	{
 		des.get(i).setaJouer(false);
+		des.get(i).setResultatRecup(false);
 	}
 	deDao.save(des);
 	return "OK";
 	
 }
 
-
-	
+@RequestMapping(value = "/verifEnd", method = RequestMethod.POST)
+@CrossOrigin(origins = "*")
+public int verifEnd(int player) {
+	List<De> des = deDao.findAll();
+	int s =0;
+	for(int i=0; i< des.size(); i++) {
+		if(des.get(i).getId() == player) {
+			if(des.get(i).isaJouer() && des.get(i).isResultatRecup()) {
+				s = 0;
+			} else {
+				s = 1;
+			}
+		}
+	}
+	return s;
+}
 	
 //	
 //	@RequestMapping(value = "/check1", method = RequestMethod.POST)
