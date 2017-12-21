@@ -58,18 +58,38 @@ public class IotService {
 			
 			/* Si l'id gagnant est celui du lanceur */
 			if(idGagnant == -1) {
-				resultat = "Egalité";
+				resultat = "0,0,rien";
+				//resultat = "Egalité";
 			} else {
 				if(idGagnant == player) {
-					resultat = " Vous avez perdu, faites " +nbSerie+ " " +(nbSerie== 1 ? gage : gage+"s" )+ " fois! ";
+					resultat = "1,"+nbSerie+","+gage;
+					
+					//resultat = " Vous avez perdu, faites " +nbSerie+ " " +(nbSerie== 1 ? gage : gage+"s" )+ " fois! ";
 				} else if(idPerdant == player){
-					resultat = " Vous avez gagné, l'adversaire fait " +nbSerie+ " " +(nbSerie== 1 ? gage : gage+"s" )+ " fois! ";
+					resultat = "2,"+nbSerie+","+gage;
+					//resultat = " Vous avez gagné, l'adversaire fait " +nbSerie+ " " +(nbSerie== 1 ? gage : gage+"s" )+ " fois! ";
 				}
 				else{
-					resultat= "Le joueur n'existe pas";
+					resultat= "-1,0,rien";
+					//resultat= "Le joueur n'existe pas";
 				}
 			}	
+		} else if( !des.get(0).isaJouer() || !des.get(1).isaJouer()) {
+			resultat = "3,0,rien";
 		}
+		
+		// On passe resultat recup à true pour reset la partie
+		
+//		if(des.get(0).isaJouer() && des.get(1).isaJouer()){
+//		
+//		}
+//		
+//		if(des.get(0).isaJouer()) {
+//			des.get(0).setResultatRecup(true);
+//		}
+//		if(des.get(1).isaJouer()) {
+//			des.get(1).setResultatRecup(true);
+//		}
 		return resultat;
 	}
 		
@@ -156,9 +176,7 @@ public class IotService {
 			// Si la somme des lancers est impaire	
 			} else if( (de.getNumber1() + de.getNumber2()) %2 != 0) {
 				gage = "squat";
-			} else {
-				gage = "step";
-			}
+			} 
 			
 		return gage;
 		}
